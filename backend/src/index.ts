@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Request, Response } from 'express';
@@ -9,16 +10,14 @@ import passportLocal from 'passport-local';
 import { UserInterface } from './Interfaces/UserInterface';
 import User from './User';
 
-const localStrategy = passportLocal.Strategy;
+dotenv.config();
 
-mongoose.connect(
-  'mongodb+srv://Davidx8:Patiment88@cluster0.gzlzd.mongodb.net/gameShare?retryWrites=true&w=majority',
-  // no longer needed :{ useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true },
-  (err: Error) => {
-    if (err) throw err;
-    console.log('Connected to MongoDB');
-  }
-);
+const localStrategy = passportLocal.Strategy;
+const mongoURL = process.env.MONGOURL;
+mongoose.connect(`${mongoURL}`, (err: Error) => {
+  if (err) throw err;
+  console.log('Connected to MongoDB');
+});
 
 //Middlewares
 const app = express();
