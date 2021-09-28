@@ -1,15 +1,1 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-.NavContainer {
-  width: 100vw;
-  height: 100px;
-  background-color: black;
-  color: aliceblue;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-}

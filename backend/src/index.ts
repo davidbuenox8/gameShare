@@ -103,7 +103,7 @@ app.post(
 );
 
 app.get('/user', (req: Request, res: Response) => {
-  res.send('req.user');
+  res.send(req.user);
 });
 
 app.listen(4000, () => {
