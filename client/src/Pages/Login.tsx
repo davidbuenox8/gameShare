@@ -7,7 +7,22 @@ export default function Login() {
 
   const login = () => {
     axios
-      .post('http://localhost:4000/login', {
+      .post(
+        'http://localhost:4000/login',
+        {
+          username,
+          password,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        console.log(res.data);
+      });
+  };
+
+  const getUser = () => {
+    axios
+      .get('http://localhost:4000/user', {
         withCredentials: true,
       })
       .then((res) => {
@@ -28,7 +43,7 @@ export default function Login() {
         onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={login}>Login</button>
-      <button>Get User Thats Logged In</button>
+      <button onClick={getUser}>Get User Thats Logged In</button>
     </div>
   );
 }
