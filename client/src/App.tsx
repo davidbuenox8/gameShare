@@ -6,6 +6,7 @@ import AdminPage from './Pages/AdminPage';
 import Login from './Pages/Login';
 import Profile from './Pages/Profile';
 import Context from './Pages/Context';
+import Register from './Pages/Register';
 import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/admin" component={AdminPage}></Route>
             <Route path="/login" component={Login}></Route>
             <Route path="/profile" component={Profile}></Route>
+            <Route path="/register" component={Register}></Route>
           </Switch>
         </Context>
       </BrowserRouter>

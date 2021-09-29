@@ -1,1 +1,11 @@
-
+.formContainer {
+  color: aliceblue;
+  background-color: #212529;
+  border-radius: 8px;
+  width: 50%;
+  height: 50%;
+  margin: 10% auto;
+}
+.Container {
+  padding: 3%;
+}
