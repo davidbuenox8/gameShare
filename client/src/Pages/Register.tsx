@@ -8,16 +8,16 @@ export default function Register() {
       <Container className="Container">
         <h1>Sign Up</h1>
         <Form>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Group className="mb-3 input" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" placeholder="Enter email" />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Group className="mb-3 input" controlId="formBasicEmail">
             <Form.Label>Username</Form.Label>
             <Form.Control type="text" placeholder="Enter email" />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Group className="mb-3 input" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" placeholder="Password" />
           </Form.Group>

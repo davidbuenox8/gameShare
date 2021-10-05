@@ -36,16 +36,16 @@ export default function Login() {
         <Container className="Container">
           <h1>Login</h1>
           <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3 input" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
-                type="email"
+                type="text"
                 placeholder="Enter email"
                 onChange={(e) => setUsername(e.target.value)}
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3 input" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
