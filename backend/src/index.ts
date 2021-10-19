@@ -9,6 +9,7 @@ import passport from 'passport';
 import passportLocal from 'passport-local';
 import { UserInterface } from './Interfaces/UserInterface';
 import User from './User';
+import axios from 'axios';
 
 dotenv.config();
 
@@ -65,6 +66,14 @@ passport.deserializeUser((id: string, cb) => {
     cb(err, userInformation);
   });
 });
+
+/* //gameSpot API
+axios
+  .get(
+    'http://www.gamespot.com/api/articles/?api_key=b69d7a7293b14019dad38aa97dd962e98cfb3e08'
+  )
+  .then((res) => res.data)
+  .then((data) => console.log(data)); */
 
 //Routes
 app.post('/register', async (req: Request, res: Response) => {

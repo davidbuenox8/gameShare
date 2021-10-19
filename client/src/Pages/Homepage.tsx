@@ -6,21 +6,12 @@ import { Link } from 'react-router-dom';
 
 export default function Homepage() {
   const ctx = useContext(myContext);
-  const APIkey = process.env.GAMESPOTKEY;
-  const gameSpotNews = () => {
-    axios
-      .get(`http://www.gamespot.com/api/articles/?api_key=${APIkey}`, {
-        withCredentials: false,
-      })
-      .then((res) => {
-        console.log(res.data);
-      });
-  };
+  const APIkey = 'b69d7a7293b14019dad38aa97dd962e98cfb3e08';
 
   return (
     <>
-      <h1 onClick={gameSpotNews}>news</h1>
-      <Carousel className="Carousel">
+      <h1>Best Rated Games</h1>
+      {/*     <Carousel className="Carousel">
         <Carousel.Item>
           <img
             className="d-block w-100"
@@ -58,7 +49,7 @@ export default function Homepage() {
             </p>
           </Carousel.Caption>
         </Carousel.Item>
-      </Carousel>
+      </Carousel> */}
     </>
   );
 }

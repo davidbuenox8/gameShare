@@ -1,14 +1,16 @@
 .formContainer {
   color: aliceblue;
   background-color: #212529;
-  border-radius: 8px;
+  border-radius: 6px;
   width: 50%;
   height: 50%;
   max-width: 700px;
   margin: 10% auto;
+  padding: 1%;
 }
+
 .Container {
-  padding: 2%;
+  padding: 1%;
 }
 
 .Carousel {
@@ -17,5 +19,5 @@
 }
 
 .input {
-  padding: 0 2%;
+  padding: 0 4%;
 }
