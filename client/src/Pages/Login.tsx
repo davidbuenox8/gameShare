@@ -17,39 +17,41 @@ export default function Login() {
         { withCredentials: true }
       )
       .then((res) => {
-        if (res.data === 'Success') {
-          window.location.href = '/';
+        if (res.data === 'success') {
+          window.location.href = 'http://localhost:3000/';
         }
       });
   };
 
   return (
-    <div className="formContainer">
-      <Container className="Container">
-        <h1>Login</h1>
-        <Form>
-          <Form.Group className="mb-3 input" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter email"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </Form.Group>
+    <>
+      <div className="formContainer">
+        <Container className="Container">
+          <h1>Login</h1>
+          <Form>
+            <Form.Group className="mb-3 input" controlId="formBasicUsername">
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Username"
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3 input" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </Form.Group>
-          <Button variant="warning" onClick={login} type="submit">
-            Login
-          </Button>
-        </Form>
-      </Container>
-    </div>
+            <Form.Group className="mb-3 input" controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Form.Group>
+            <Button variant="warning" onClick={login} type="submit">
+              Login
+            </Button>
+          </Form>
+        </Container>
+      </div>
+    </>
   );
 }

@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import session from 'express-session';
 import mongoose, { Error } from 'mongoose';
 import passport from 'passport';
@@ -97,19 +97,37 @@ app.post('/register', async (req: Request, res: Response) => {
         email,
         username,
         password: hashedPassword,
-        isAdmin: false,
       });
       await newUser.save();
-      res.send('Success');
+      res.send('success');
     }
   });
 });
+
+const isAdminMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  const { user }: any = req;
+  if (user) {
+    User.findOne(
+      { username: user.username },
+      (err: Error, doc: UserInterface) => {
+        if (err) throw err;
+        if (doc?.isAdmin) {
+          next();
+        } else {
+          res.send('Sorry, only admins can perform this.');
+        }
+      }
+    );
+  } else {
+    res.send(`Sorry, you aren't logged in`);
+  }
+};
 
 app.post(
   '/login',
   passport.authenticate('local'),
   (req: Request, res: Response) => {
-    res.send('Success');
+    res.send('success');
   }
 );
 
@@ -120,6 +138,21 @@ app.get('/user', (req: Request, res: Response) => {
 app.get('/logout', function (req, res) {
   req.logout();
   res.send('Success');
+});
+app.post('/deleteuser', isAdminMiddleware, (req, res) => {
+  const { id } = req.body;
+  User.findByIdAndDelete(id)
+    .then((deleted) => {
+      res.send('success');
+    })
+    .catch((err) => console.log(err));
+});
+
+app.get('/getallusers', isAdminMiddleware, async (req, res) => {
+  await User.find({}, (err: Error, data: UserInterface[]) => {
+    if (err) throw err;
+    res.send(data);
+  });
 });
 
 app.listen(4000, () => {

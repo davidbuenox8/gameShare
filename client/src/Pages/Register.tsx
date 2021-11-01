@@ -3,6 +3,27 @@ import axios from 'axios';
 import { Form, Button, Container } from 'react-bootstrap';
 
 export default function Register() {
+  const [email, setEmail] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const register = () => {
+    axios
+      .post(
+        'http://localhost:4000/register',
+        {
+          email,
+          username,
+          password,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        if (res.data === 'success') {
+          window.location.href = 'http://localhost:3000/login';
+        }
+      });
+  };
   return (
     <div className="formContainer">
       <Container className="Container">
@@ -10,18 +31,30 @@ export default function Register() {
         <Form>
           <Form.Group className="mb-3 input" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </Form.Group>
-          <Form.Group className="mb-3 input" controlId="formBasicEmail">
+          <Form.Group className="mb-3 input" controlId="formBasicUsername">
             <Form.Label>Username</Form.Label>
-            <Form.Control type="text" placeholder="Enter email" />
+            <Form.Control
+              type="text"
+              placeholder="Enter Username"
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3 input" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </Form.Group>
-          <Button variant="warning" type="submit">
+          <Button onClick={register} variant="warning" type="submit">
             Sign Up
           </Button>
         </Form>
