@@ -77,7 +77,7 @@ axios
 
 //Routes
 app.post('/register', async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+  const { email, username, password } = req.body;
   if (
     !username ||
     !password ||
@@ -94,8 +94,10 @@ app.post('/register', async (req: Request, res: Response) => {
     if (!doc) {
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = new User({
+        email,
         username,
         password: hashedPassword,
+        isAdmin: false,
       });
       await newUser.save();
       res.send('Success');
@@ -107,7 +109,7 @@ app.post(
   '/login',
   passport.authenticate('local'),
   (req: Request, res: Response) => {
-    res.send('Successfully Authenticated');
+    res.send('Success');
   }
 );
 

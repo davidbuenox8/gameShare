@@ -1,13 +1,7 @@
-import React, { useContext } from 'react';
-import { myContext } from './Context';
-import { Carousel } from 'react-bootstrap';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React from 'react';
+//import { Carousel } from 'react-bootstrap';
 
 export default function Homepage() {
-  const ctx = useContext(myContext);
-  const APIkey = 'b69d7a7293b14019dad38aa97dd962e98cfb3e08';
-
   return (
     <>
       <h1>Best Rated Games</h1>

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const user = new mongoose.Schema({
+  email: String,
   username: {
     type: String,
     unique: true,

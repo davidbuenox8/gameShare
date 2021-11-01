@@ -17,49 +17,39 @@ export default function Login() {
         { withCredentials: true }
       )
       .then((res) => {
-        console.log(res.data);
+        if (res.data === 'Success') {
+          window.location.href = '/';
+        }
       });
   };
 
-  const getUser = () => {
-    axios
-      .get('http://localhost:4000/user', {
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res.data);
-      });
-  };
   return (
-    <>
-      <div className="formContainer">
-        <Container className="Container">
-          <h1>Login</h1>
-          <Form>
-            <Form.Group className="mb-3 input" controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter email"
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </Form.Group>
+    <div className="formContainer">
+      <Container className="Container">
+        <h1>Login</h1>
+        <Form>
+          <Form.Group className="mb-3 input" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter email"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Form.Group>
 
-            <Form.Group className="mb-3 input" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
-            <Button variant="warning" onClick={login} type="submit">
-              Login
-            </Button>
-          </Form>
-        </Container>
-      </div>
-      <button onClick={getUser}>Get User Thats Logged In</button>
-    </>
+          <Form.Group className="mb-3 input" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+          <Button variant="warning" onClick={login} type="submit">
+            Login
+          </Button>
+        </Form>
+      </Container>
+    </div>
   );
 }
