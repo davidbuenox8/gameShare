@@ -16,11 +16,16 @@ export default function Login() {
         },
         { withCredentials: true }
       )
-      .then((res) => {
-        if (res.data === 'success') {
-          window.location.href = 'http://localhost:3000/';
+      .then(
+        (res) => {
+          if (res.data === 'success') {
+            window.location.href = 'http://localhost:3000/';
+          }
+        },
+        () => {
+          console.log('Failure');
         }
-      });
+      );
   };
 
   return (

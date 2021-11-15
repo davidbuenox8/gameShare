@@ -60,6 +60,7 @@ passport.serializeUser((user: any, cb) => {
 passport.deserializeUser((id: string, cb) => {
   User.findOne({ _id: id }, (err: Error, user: any) => {
     const userInformation = {
+      email: user.email,
       username: user.username,
       isAdmin: user.isAdmin,
     };
@@ -81,8 +82,10 @@ app.post('/register', async (req: Request, res: Response) => {
   if (
     !username ||
     !password ||
+    !email ||
     typeof username !== 'string' ||
-    typeof password !== 'string'
+    typeof password !== 'string' ||
+    typeof email !== 'string'
   ) {
     res.send('Improper Values');
     return;
@@ -139,7 +142,7 @@ app.get('/logout', function (req, res) {
   req.logout();
   res.send('Success');
 });
-app.post('/deleteuser', isAdminMiddleware, (req, res) => {
+app.post('/deleteUser', isAdminMiddleware, (req, res) => {
   const { id } = req.body;
   User.findByIdAndDelete(id)
     .then((deleted) => {
@@ -148,11 +151,15 @@ app.post('/deleteuser', isAdminMiddleware, (req, res) => {
     .catch((err) => console.log(err));
 });
 
-app.get('/getallusers', isAdminMiddleware, async (req, res) => {
-  await User.find({}, (err: Error, data: UserInterface[]) => {
-    if (err) throw err;
-    res.send(data);
-  });
+app.get('/getallusers', isAdminMiddleware, (req: Request, res: Response) => {
+  User.find({})
+    .then((data) => {
+      console.log(data);
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.listen(4000, () => {
