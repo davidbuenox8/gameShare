@@ -7,7 +7,11 @@ import session from 'express-session';
 import mongoose, { Error } from 'mongoose';
 import passport from 'passport';
 import passportLocal from 'passport-local';
-import { UserInterface, GameInterface } from './Interfaces/Interfaces';
+import {
+  UserInterface,
+  GameInterface,
+  DatabaseUserInterface,
+} from './Interfaces/Interfaces';
 import User from './User';
 import axios from 'axios';
 
@@ -37,29 +41,36 @@ app.use(passport.session());
 
 //Passport
 passport.use(
-  new localStrategy((username, password, done) => {
-    User.findOne({ username: username }, (err: Error, user: any) => {
-      if (err) throw err;
-      if (!user) return done(null, false);
-      bcrypt.compare(password, user.password, (err: Error, result: any) => {
+  new localStrategy((username: string, password: string, done) => {
+    User.findOne(
+      { username: username },
+      (err: Error, user: DatabaseUserInterface) => {
         if (err) throw err;
-        if (result === true) {
-          return done(null, user);
-        } else {
-          return done(null, false);
-        }
-      });
-    });
+        if (!user) return done(null, false);
+        bcrypt.compare(
+          password,
+          user.password,
+          (err: Error, result: boolean) => {
+            if (err) throw err;
+            if (result === true) {
+              return done(null, user);
+            } else {
+              return done(null, false);
+            }
+          }
+        );
+      }
+    );
   })
 );
 
-passport.serializeUser((user: any, cb) => {
-  cb(null, user.id);
+passport.serializeUser((user: DatabaseUserInterface, cb) => {
+  cb(null, user._id);
 });
 
 passport.deserializeUser((id: string, cb) => {
-  User.findOne({ _id: id }, (err: Error, user: any) => {
-    const userInformation = {
+  User.findOne({ _id: id }, (err: Error, user: DatabaseUserInterface) => {
+    const userInformation: UserInterface = {
       email: user.email,
       username: user.username,
       isAdmin: user.isAdmin,
@@ -92,7 +103,7 @@ app.post('/register', async (req: Request, res: Response) => {
     return;
   }
 
-  User.findOne({ username }, async (err: Error, doc: UserInterface) => {
+  User.findOne({ username }, async (err: Error, doc: DatabaseUserInterface) => {
     if (err) throw err;
     if (doc) res.send('User already exists');
     if (!doc) {
@@ -113,7 +124,7 @@ const isAdminMiddleware = (req: Request, res: Response, next: NextFunction) => {
   if (user) {
     User.findOne(
       { username: user.username },
-      (err: Error, doc: UserInterface) => {
+      (err: Error, doc: DatabaseUserInterface) => {
         if (err) throw err;
         if (doc?.isAdmin) {
           next();
@@ -154,10 +165,10 @@ app.post('/deleteUser', isAdminMiddleware, (req, res) => {
 
 app.get('/getallusers', isAdminMiddleware, (req: Request, res: Response) => {
   User.find({})
-    .then((data) => {
-      const filteredData: any[] = [];
-      data.forEach((item: any) => {
-        const userInformation = {
+    .then((data: any) => {
+      const filteredData: UserInterface[] = [];
+      data.forEach((item: DatabaseUserInterface) => {
+        const userInformation: UserInterface = {
           id: item._id,
           username: item.username,
           email: item.email,
