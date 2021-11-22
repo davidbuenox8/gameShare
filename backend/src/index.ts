@@ -7,7 +7,7 @@ import session from 'express-session';
 import mongoose, { Error } from 'mongoose';
 import passport from 'passport';
 import passportLocal from 'passport-local';
-import { UserInterface } from './Interfaces/UserInterface';
+import { UserInterface, GameInterface } from './Interfaces/Interfaces';
 import User from './User';
 import axios from 'axios';
 
@@ -63,6 +63,7 @@ passport.deserializeUser((id: string, cb) => {
       email: user.email,
       username: user.username,
       isAdmin: user.isAdmin,
+      id: user._id,
     };
     cb(err, userInformation);
   });
@@ -154,8 +155,18 @@ app.post('/deleteUser', isAdminMiddleware, (req, res) => {
 app.get('/getallusers', isAdminMiddleware, (req: Request, res: Response) => {
   User.find({})
     .then((data) => {
-      console.log(data);
-      res.send(data);
+      const filteredData: any[] = [];
+      data.forEach((item: any) => {
+        const userInformation = {
+          id: item._id,
+          username: item.username,
+          email: item.email,
+          isAdmin: item.isAdmin,
+        };
+        filteredData.push(userInformation);
+      });
+      console.log(filteredData);
+      res.send(filteredData);
     })
     .catch((err) => {
       console.log(err);

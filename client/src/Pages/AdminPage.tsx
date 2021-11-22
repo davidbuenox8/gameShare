@@ -1,39 +1,40 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { myContext } from './Context';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { UserInterface } from '../Interfaces/Interfaces';
 
 export default function AdminPage() {
   const ctx = useContext(myContext);
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<UserInterface[]>();
   const [selectedUser, setSelectedUser] = useState<string>();
   useEffect(() => {
     axios
       .get('http://localhost:4000/getallusers', {
         withCredentials: true,
       })
-      .then((res: any) => {
+      .then((res: AxiosResponse) => {
         setData(
-          res.data.filter((item: any) => {
+          res.data.filter((item: UserInterface) => {
             return item.username !== ctx.username;
           })
         );
       });
-  }, []);
+  }, [ctx]);
   if (!data) {
     return null;
   }
 
   const deleteUser = () => {
-    let userId: any;
-    data.forEach((item: any) => {
+    let userId: string;
+    data.forEach((item: UserInterface) => {
       if (item.username === selectedUser) {
-        userId = item._id;
+        userId = item.id;
       }
     });
 
     axios.post(
       'http://localhost:4000/deleteUser',
-      { id: userId },
+      { id: userId! },
       { withCredentials: true }
     );
   };
@@ -48,7 +49,7 @@ export default function AdminPage() {
         id="deleteUser"
       >
         <option id="selectAUser">Select A User</option>
-        {data.map((item: any) => {
+        {data.map((item: UserInterface) => {
           return (
             <option key={item.username} id={item.username}>
               {item.username}

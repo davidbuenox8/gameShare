@@ -1,3 +1,11 @@
+export interface UserInterface {
+  id: string;
+  email: string;
+  username: string;
+  password: string;
+  isAdmin: boolean;
+}
+
 export interface GameInterface {
   name: string;
   location: string;

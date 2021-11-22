@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Form, Button, Container } from 'react-bootstrap';
 
 export default function Login() {
@@ -17,7 +17,7 @@ export default function Login() {
         { withCredentials: true }
       )
       .then(
-        (res) => {
+        (res: AxiosResponse) => {
           if (res.data === 'success') {
             window.location.href = 'http://localhost:3000/';
           }
