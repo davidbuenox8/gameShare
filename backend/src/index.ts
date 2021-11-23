@@ -80,14 +80,6 @@ passport.deserializeUser((id: string, cb) => {
   });
 });
 
-/* //gameSpot API
-axios
-  .get(
-    'http://www.gamespot.com/api/articles/?api_key=b69d7a7293b14019dad38aa97dd962e98cfb3e08'
-  )
-  .then((res) => res.data)
-  .then((data) => console.log(data)); */
-
 //Routes
 app.post('/register', async (req: Request, res: Response) => {
   const { email, username, password } = req.body;
